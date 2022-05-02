@@ -1,4 +1,5 @@
-abstract class Character {
+package entities;
+public abstract class Character {
 	
 	private String nome;
 	private int hp;

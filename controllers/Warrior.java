@@ -1,4 +1,8 @@
-class Warrior extends Character implements Comparable<Warrior> {
+package controllers;
+import entities.Character;
+
+
+public class Warrior extends Character implements Comparable<Warrior> {
 	
 	private int pocaoDeCura;
   private int ranking;
@@ -53,7 +57,7 @@ class Warrior extends Character implements Comparable<Warrior> {
   public void setSenha(String senha) {
 	this.senha = senha;
 } 
-  void reiniciar(){
+  public void reiniciar(){
     super.setStatus("Normal");
     this.pocaoDeCura = 1;
     super.setHp(20);

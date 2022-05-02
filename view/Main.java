@@ -1,4 +1,11 @@
+package view;
 import java.util.Scanner;
+
+import controllers.Monster;
+import controllers.Warrior;
+import entities.AcaoInvalidaException;
+import entities.AutenticacaoException;
+
 import java.util.*; 
 
 class Main {
@@ -166,7 +173,7 @@ class Main {
         }
       }while(op!=0);
       
-      
+    scanf.close();
 
 }
 

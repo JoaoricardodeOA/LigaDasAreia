@@ -1,4 +1,7 @@
-class Monster extends Character {
+package controllers;
+import entities.Character;
+
+public class Monster extends Character {
 	
 	public Monster(String nome) {
 		super(nome,24,4,"Normal",6);
