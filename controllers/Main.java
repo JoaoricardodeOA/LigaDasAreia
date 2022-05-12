@@ -1,8 +1,6 @@
-package view;
+package controllers;
 import java.util.Scanner;
 
-import controllers.Monster;
-import controllers.Warrior;
 import entities.AcaoInvalidaException;
 import entities.AutenticacaoException;
 
@@ -140,27 +138,27 @@ class Main {
         break;
       case 3:
         System.out.print("\nDIGA-NOS SEU NOME: "); 
-		nomeJogador = scanf.nextLine();
-      System.out.print("\nDIGA-NOS SUA SENHA: ");
-		 senha = scanf.nextLine();
+		    nomeJogador = scanf.nextLine();
+        System.out.print("\nDIGA-NOS SUA SENHA: ");
+		    senha = scanf.nextLine();
         System.out.print("\nDIGA-NOS O INDÍCIE: ");
-		 indicie = scanf.nextInt(); scanf.nextLine();
+		    indicie = scanf.nextInt(); scanf.nextLine();
         jogador2 = new Warrior(nomeJogador,senha);
         try{
         jogador = warriors.get(indicie);
            autenticacao(jogador, jogador2);
-         System.out.print("\nDIGA-NOS SEU NOVO NOME: "); 
-		nomeJogador = scanf.nextLine();
-      System.out.print("\nDIGA-NOS SUA NOVA SENHA: ");
-		 senha = scanf.nextLine();
-        jogador.setSenha(senha);
-        jogador.setNome(nomeJogador);
-        warriors.set(indicie,jogador);
-          }catch(AutenticacaoException a){
-            System.out.println("Seu usuário ainda não foi criado.");
-          }catch(IndexOutOfBoundsException b){
-            System.out.println("Seu usuário ainda não foi criado.");
-          }
+           System.out.print("\nDIGA-NOS SEU NOVO NOME: "); 
+		       nomeJogador = scanf.nextLine();
+           System.out.print("\nDIGA-NOS SUA NOVA SENHA: ");
+		       senha = scanf.nextLine();
+           jogador.setSenha(senha);
+           jogador.setNome(nomeJogador);
+           warriors.set(indicie,jogador);
+           }catch(AutenticacaoException a){
+             System.out.println("Seu usuário ainda não foi criado.");
+           }catch(IndexOutOfBoundsException b){
+             System.out.println("Seu usuário ainda não foi criado.");
+           }
         break;
       case 4:
         for(Warrior player:warriors){

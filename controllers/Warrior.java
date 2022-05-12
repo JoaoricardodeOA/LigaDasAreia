@@ -4,7 +4,7 @@ import entities.Character;
 
 public class Warrior extends Character implements Comparable<Warrior> {
 	
-	private int pocaoDeCura;
+  private int pocaoDeCura;
   private int ranking;
   private String senha;
   
