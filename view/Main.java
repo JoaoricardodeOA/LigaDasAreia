@@ -1,6 +1,8 @@
-package controllers;
+package view;
 import java.util.Scanner;
 
+import controllers.Monster;
+import controllers.Warrior;
 import entities.AcaoInvalidaException;
 import entities.AutenticacaoException;
 
@@ -15,32 +17,32 @@ class Main {
     Warrior jogador,jogador2;
 		Scanner scanf = new Scanner(System.in);
 		Random  rand  = new Random();
-      int acao, turno,op=5, indicie;
+    int acao, turno,op=5, indicie;
 		System.out.println("\n\nSEJA BEM-VINDO A ARENA, GUERREIRO!!!");
       
     do{	
       try{
-       menu();
+      menu();
       op = scanf.nextInt(); scanf.nextLine();
-        opcaoI(op);
-		Monster inimigo = new Monster("Monster");
-    switch(op){
+      opcaoI(op);
+	    Monster inimigo = new Monster("Monster");
+      switch(op){
       case 1:
         System.out.print("\nDIGA-NOS SEU NOME: "); 
-		nomeJogador = scanf.nextLine();
-      System.out.print("\nDIGA-NOS SUA SENHA: ");
-		 senha = scanf.nextLine();
+		    nomeJogador = scanf.nextLine();
+        System.out.print("\nDIGA-NOS SUA SENHA: ");
+		    senha = scanf.nextLine();
         System.out.print("\nDIGA-NOS O INDÍCIE: ");
-		 indicie = scanf.nextInt(); scanf.nextLine();
+		    indicie = scanf.nextInt(); scanf.nextLine();
         jogador2 = new Warrior(nomeJogador,senha);
         try{ 
         jogador = warriors.get(indicie);
-         autenticacao(jogador, jogador2);
-       jogador.reiniciar();
-    	System.out.print("\n" + jogador.toString() + "\n");
-		System.out.print("\n" + inimigo.toString() + "\n");
+        autenticacao(jogador, jogador2);
+        jogador.reiniciar();
+    	  System.out.print("\n" + jogador.toString() + "\n");
+		    System.out.print("\n" + inimigo.toString() + "\n");
 
-		turno = 0;
+		    turno = 0;
 		
 		while(true) {
 
@@ -129,9 +131,9 @@ class Main {
         break;
       case 2:
         System.out.print("\nDIGA-NOS SEU NOME: "); 
-		nomeJogador = scanf.nextLine();
-      System.out.print("\nDIGA-NOS SUA SENHA: ");
-		 senha = scanf.nextLine();
+		    nomeJogador = scanf.nextLine();
+        System.out.print("\nDIGA-NOS SUA SENHA: ");
+		    senha = scanf.nextLine();
         jogador = new Warrior(nomeJogador,senha);
         warriors.add(jogador);
         System.out.println("indicíe do jogador---"+warriors.indexOf(jogador));
@@ -145,7 +147,7 @@ class Main {
 		    indicie = scanf.nextInt(); scanf.nextLine();
         jogador2 = new Warrior(nomeJogador,senha);
         try{
-        jogador = warriors.get(indicie);
+           jogador = warriors.get(indicie);
            autenticacao(jogador, jogador2);
            System.out.print("\nDIGA-NOS SEU NOVO NOME: "); 
 		       nomeJogador = scanf.nextLine();
