@@ -169,7 +169,7 @@ class Main {
               jogador.setNome(nomeJogador);
               warriors.set(indicie, jogador);
             } catch (AutenticacaoException a) {
-              System.out.println("Seu usuário ainda não foi criado.");
+              System.out.println("Seu usuário e/ou senha, não está(ão) correto(s).");
             } catch (IndexOutOfBoundsException b) {
               System.out.println("Seu usuário ainda não foi criado.");
             }
