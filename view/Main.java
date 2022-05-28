@@ -200,6 +200,16 @@ class Main {
     }
     return numeros[i - 1];
   }
+ 
+  public static boolean autenticacao(Warrior player1, Warrior player2) throws AutenticacaoException {
+    if (player2.getSenha().equals(player1.getSenha()) && player2.getNome().equals(player1.getNome())) {
+      return true;
+    } else {
+      AutenticacaoException sie;
+      sie = new AutenticacaoException(player1, player2);
+      throw sie;
+    }
+  }
 
   public static int opcao(int num) throws AcaoInvalidaException {
     if (num == 1 || num == 2 || num == 3) {
@@ -211,17 +221,7 @@ class Main {
     }
 
   }
-
-  public static boolean autenticacao(Warrior player1, Warrior player2) throws AutenticacaoException {
-    if (player2.getSenha().equals(player1.getSenha()) && player2.getNome().equals(player1.getNome())) {
-      return true;
-    } else {
-      AutenticacaoException sie;
-      sie = new AutenticacaoException(player1, player2);
-      throw sie;
-    }
-  }
-
+  
   public static int opcaoI(int num) throws AcaoInvalidaException {
     if (num == 0 || num == 1 || num == 2 || num == 3 || num == 4) {
       return num;
