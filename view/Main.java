@@ -3,19 +3,18 @@ package view;
 import java.util.Random;
 import java.util.Scanner;
 
-import controllers.Monster;
-import controllers.Ranking;
-import controllers.Warrior;
+import controllers.Facade;
 import exception.AcaoInvalidaException;
 import exception.AutenticacaoException;
 
 class Main {
 
+
   public static void main(String[] args) {
-    Ranking ranking = Ranking.getInstance();
-    String nomeJogador;
-    String senha;
-    Warrior jogador, jogador2;
+    Facade interfacade = Facade.getInstance();
+    String nomeJogador, nomeJogador2;
+    String senha, senha2;
+    boolean validade;
     Scanner scanf = new Scanner(System.in);
     Random rand = new Random();
     int acao, turno, op = 5, indicie;
@@ -27,7 +26,6 @@ class Main {
         op = scanf.nextInt();
         scanf.nextLine();
         opcaoI(op);
-        Monster inimigo = new Monster("Monster");
         switch (op) {
           case 1:
             System.out.print("\nDIGA-NOS SEU NOME: ");
@@ -36,14 +34,10 @@ class Main {
             senha = scanf.nextLine();
             System.out.print("\nDIGA-NOS O INDÍCIE: ");
             indicie = scanf.nextInt();
-            scanf.nextLine();
-            jogador2 = new Warrior(nomeJogador, senha);
+            scanf.nextLine();          
             try {
-              jogador = ranking.get(indicie);
-              autenticacao(jogador, jogador2);
-              jogador.reiniciar();
-              System.out.print("\n" + jogador.toString() + "\n");
-              System.out.print("\n" + inimigo.toString() + "\n");
+              validade = interfacade.iniciarJogo(indicie, nomeJogador, senha);
+              autenticacao(validade);
 
               turno = 0;
 
@@ -53,87 +47,32 @@ class Main {
 
                 if ((turno % 2) != 0) {
                   try {
-                    System.out.print("\n-----------------------");
-                    System.out.print("\n  " + jogador.getNome());
-                    System.out.print("\n-----------------------");
-                    System.out.print("\n1 - Atacar             ");
-                    System.out.print("\n2 - Tomar poção de cura");
-                    System.out.print("\n3 - Fortificar         ");
-                    System.out.print("\n-----------------------");
-                    System.out.print("\n>>> ");
+                    interfacade.menuJogador();
                     acao = scanf.nextInt();
                     acao = opcao(acao);
                     scanf.nextLine();
+                    interfacade.opcoesJogador(acao, turno);
 
-                    switch (acao) {
-                      case 1:
-                        jogador.atacar(inimigo);
-                        System.out.print("\n[ Ataque realizado com sucesso ]");
-                        break;
-
-                      case 2:
-                        jogador.tomarPocaoDeCura();
-                        System.out.print("\n[ Pocão Ok ]");
-                        break;
-
-                      case 3:
-                        turno = jogador.fortificar(inimigo, turno);
-                        System.out.print("\n[ Fortificado ]");
-                        break;
-                    }
                   } catch (AcaoInvalidaException a) {
                     System.out.print("\ncomando invalido...");
 
                   }
 
                 } else {
-                  System.out.print("\n-------------");
-                  System.out.print("\n   INIMIGO   ");
-                  System.out.print("\n-------------");
-                  System.out.print("\n1 - Atacar   ");
-                  System.out.print("\n2 - Recuperar");
-                  System.out.print("\n3 - Endurecer");
-                  System.out.print("\n-------------");
                   acao = gerarAleatorio(rand);
-                  switch (acao) {
+                  try{
+                    acao = opcao(acao);
+                    interfacade.opcoesInimigo(acao, turno);
+                }
+                  catch (AcaoInvalidaException a) {
+                    System.out.print("\ncomando invalido...");
 
-                    case 1:
-                      inimigo.atacar(jogador);
-                      System.out.print("\n\n[ Você é atacado com sucesso ]");
-                      break;
-
-                    case 2:
-                      inimigo.recuperacao();
-                      System.out.print("\n\n[ O inimigo foi recuperado ]");
-                      break;
-
-                    case 3:
-                      turno = inimigo.endurecer(jogador, turno);
-                      System.out.print("\n\n[ O inimigo foi endurecido ]");
-                      break;
-
-                    default:
-                      System.out.print("\nDigite um comando valido...");
-                      break;
                   }
                 }
-                System.out.print("\n" + jogador.toString());
-                System.out.print("\n" + inimigo.toString() + "\n");
-                if ((inimigo.getHp() <= 0))
-                  jogador.setRanking(jogador.getRanking() + 2);
-
-                if ((jogador.getHp() <= 0) || (inimigo.getHp() <= 0))
-                  break;
+                validade = interfacade.status();
+                if(validade == true) break;
               }
-
-              System.out.print("\n\n##################");
-              System.out.print("\n JOGO FINALIZADO!  ");
-              System.out.print("\n##################");
-
-              System.out.print("\n" + jogador.toString());
-              System.out.print("\n" + inimigo.toString());
-
-              System.out.print("\n\n##################\n\n");
+              interfacade.fimDeJogo();
             } catch (AutenticacaoException a) {
               System.out.println("Seu usuário ainda não foi criado.");
             } catch (IndexOutOfBoundsException b) {
@@ -145,8 +84,7 @@ class Main {
             nomeJogador = scanf.nextLine();
             System.out.print("\nDIGA-NOS SUA SENHA: ");
             senha = scanf.nextLine();
-            jogador = new Warrior(nomeJogador, senha);
-            ranking.add(jogador);
+            interfacade.adicionar(nomeJogador, senha);
             break;
           case 3:
             System.out.print("\nDIGA-NOS SEU NOME: ");
@@ -156,17 +94,13 @@ class Main {
             System.out.print("\nDIGA-NOS O INDÍCIE: ");
             indicie = scanf.nextInt();
             scanf.nextLine();
-            jogador2 = new Warrior(nomeJogador, senha);
+            System.out.print("\nDIGA-NOS SEU NOVO NOME: ");
+            nomeJogador2 = scanf.nextLine();
+            System.out.print("\nDIGA-NOS SUA NOVA SENHA: ");
+            senha2 = scanf.nextLine();
             try {
-              jogador = ranking.get(indicie);
-              autenticacao(jogador, jogador2);
-              System.out.print("\nDIGA-NOS SEU NOVO NOME: ");
-              nomeJogador = scanf.nextLine();
-              System.out.print("\nDIGA-NOS SUA NOVA SENHA: ");
-              senha = scanf.nextLine();
-              jogador.setSenha(senha);
-              jogador.setNome(nomeJogador);
-              ranking.set(indicie, jogador);
+              validade = interfacade.modificarUsuario(indicie, nomeJogador, senha, nomeJogador2, senha2);
+              autenticacao(validade);
             } catch (AutenticacaoException a) {
               System.out.println("Seu usuário e/ou senha, não está(ão) correto(s).");
             } catch (IndexOutOfBoundsException b) {
@@ -174,7 +108,7 @@ class Main {
             }
             break;
           case 4:
-            ranking.exibir();
+            interfacade.exibirRanking();
             break;
         }
       } catch (AcaoInvalidaException a) {
@@ -198,12 +132,12 @@ class Main {
     return numeros[i - 1];
   }
  
-  public static boolean autenticacao(Warrior player1, Warrior player2) throws AutenticacaoException {
-    if (player2.getSenha().equals(player1.getSenha()) && player2.getNome().equals(player1.getNome())) {
+  public static boolean autenticacao(Boolean validade) throws AutenticacaoException {
+    if (validade == true) {
       return true;
     } else {
       AutenticacaoException sie;
-      sie = new AutenticacaoException(player1, player2);
+      sie = new AutenticacaoException(validade);
       throw sie;
     }
   }
