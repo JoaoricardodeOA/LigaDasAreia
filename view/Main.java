@@ -1,10 +1,10 @@
 package view;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 import controllers.Monster;
+import controllers.Ranking;
 import controllers.Warrior;
 import exception.AcaoInvalidaException;
 import exception.AutenticacaoException;
@@ -12,7 +12,7 @@ import exception.AutenticacaoException;
 class Main {
 
   public static void main(String[] args) {
-    ArrayList<Warrior> warriors = new ArrayList<>();
+    Ranking ranking = Ranking.getInstance();
     String nomeJogador;
     String senha;
     Warrior jogador, jogador2;
@@ -39,7 +39,7 @@ class Main {
             scanf.nextLine();
             jogador2 = new Warrior(nomeJogador, senha);
             try {
-              jogador = warriors.get(indicie);
+              jogador = ranking.get(indicie);
               autenticacao(jogador, jogador2);
               jogador.reiniciar();
               System.out.print("\n" + jogador.toString() + "\n");
@@ -146,8 +146,7 @@ class Main {
             System.out.print("\nDIGA-NOS SUA SENHA: ");
             senha = scanf.nextLine();
             jogador = new Warrior(nomeJogador, senha);
-            warriors.add(jogador);
-            System.out.println("indicíe do jogador---" + warriors.indexOf(jogador));
+            ranking.add(jogador);
             break;
           case 3:
             System.out.print("\nDIGA-NOS SEU NOME: ");
@@ -159,7 +158,7 @@ class Main {
             scanf.nextLine();
             jogador2 = new Warrior(nomeJogador, senha);
             try {
-              jogador = warriors.get(indicie);
+              jogador = ranking.get(indicie);
               autenticacao(jogador, jogador2);
               System.out.print("\nDIGA-NOS SEU NOVO NOME: ");
               nomeJogador = scanf.nextLine();
@@ -167,7 +166,7 @@ class Main {
               senha = scanf.nextLine();
               jogador.setSenha(senha);
               jogador.setNome(nomeJogador);
-              warriors.set(indicie, jogador);
+              ranking.set(indicie, jogador);
             } catch (AutenticacaoException a) {
               System.out.println("Seu usuário e/ou senha, não está(ão) correto(s).");
             } catch (IndexOutOfBoundsException b) {
@@ -175,9 +174,7 @@ class Main {
             }
             break;
           case 4:
-            for (Warrior player : warriors) {
-              System.out.println(player.getNome() + "---" + player.getRanking());
-            }
+            ranking.exibir();
             break;
         }
       } catch (AcaoInvalidaException a) {
